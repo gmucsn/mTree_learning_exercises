@@ -4,7 +4,7 @@ Comment 1 - We should add a link to the videos that should be watched before the
 
 Comment 2 - Will we have a different file for each learning exercise?
 
-Comment 3 - Something like instructions below.
+Comment 3 - Something like instructions below.  All links are broken and need to be fixed.
 
 Comment 4 - Should we have them fork this repo.  We obviously don't want them to make changes to this repo.  Or can we do this somehow on a cloned repo.
 
