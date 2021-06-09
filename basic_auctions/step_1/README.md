@@ -4,6 +4,8 @@ In this step, we will be setting up our initial python files for our MES.
 
 We will need to create three files for our MES components of an environment, institution, and agents.
 
+To do this open Visual Studio Code and navigate to this folder in your repo. 
+
 In the mes directory create the following files:
 
 - auction_environment.py
@@ -36,3 +38,4 @@ class AuctionEnvironment(Environment):
 
 In particular, notice the use of the @directive_enabled_class decorator. This is necessary in mTree for your component to work.
 
+When you have saved these python files go to [Step_2](../step_2).
