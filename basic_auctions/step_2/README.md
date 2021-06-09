@@ -53,3 +53,4 @@ We then construct a message and use the send method, `self.send(recipient, messa
 
 In this case, we will use the selector `{"short_name": "AuctionInstitution"}` to get the address of the institution as we will only be using one institution here. The short name of the component will typically just be the class name of the component itself. 
 
+When you have saved these python files go to [Step_3](../step_3).
