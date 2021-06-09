@@ -6,7 +6,7 @@ Comment 2 - Will we have a different file for each learning exercise?
 
 Comment 3 - Something like instructions below.
 
-Comment 4 - Should we have them fork this repo.  We obviously don't want them to make changes to this repo.  Or can we do this somhow on a cloned repo.
+Comment 4 - Should we have them fork this repo.  We obviously don't want them to make changes to this repo.  Or can we do this somehow on a cloned repo.
 
 ## Instructions
 These learning_exercises are a guided self-learning tour of mTree.  Before you can begin you should do the following:
