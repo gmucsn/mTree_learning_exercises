@@ -50,5 +50,5 @@ def __init__(self):
     self.auction_history = []
 
 ```
-
-        
+hen you are finsihed go to [Step_5](../step_5).
+     
