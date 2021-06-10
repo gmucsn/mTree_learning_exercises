@@ -6,7 +6,7 @@ In particular, we will need to add a directive handler to respond to messages of
 
 A directive inside a message identifies the directive handler that will handle the receiving and processing of messages from other components in the MES. You will use a decorator like `@directive_decorator("start_environment")` immediately above your class method to indicate what directive the method will handle.
 
-Minimally, for our environment we will need to respond to the "start_environment" directive. So we will add this code to our class:
+As you work on the methods in the different classes be sure to add a docstring documenting what the method does and explaining any key variables or arguments being used and what self.variables are being changed or data being returned.  You should also document what the message being received is and if a message(s) is(are) being sent.  Here is the start_enviornment method without a docstring.
 ```
 @directive_decorator("start_environment")
 def start_environment(self, message:Message):
