@@ -1,6 +1,6 @@
 # mTree Basic Auction Tutorial - Step 5
 
-At this point, we have an auction that will start and received bids, but it will not determine the winner of the auction and alert them. To accomplis this, we will extend our institution code and create a directive in our agent to receive news if they won. We will also generate a configuration file that we can use to run our current code and test it.
+At this point, we have an auction institution that will start up and receive bids from agents, but it will not determine the outcome (winner) of the auction or inform agents about the outcome. To accomplish this, we will extend our institution code and create a directive in our agent to receive news if they won. We will also generate a configuration file that we can use to run our current code and test it.
 
 First, we'll need to go and update our `bid_for_item` method in our institution to identify when all agents
 have submitted a bid.
@@ -17,11 +17,14 @@ def bid_for_item(self, message: Message):
         self.complete_auction()
 ```
 
-Now we will add a complete `complete_auction` method that will determine the winner. In order to determine the
-winner we will sort the bid list by the bid value and pick the highest bidder. Only this bidder will get 
-information on the actual price of the item. We will then send message to the agents that did not win the
-auction. Finally, we will send a message back to the institution to start the next auction.
+Now we will add a `complete_auction` method that will determine the winner. 
+1.  We will sort the bid list by the bid value.
+2.  The bidder with the highest bid is declared the winner and pays what they bid.  
+3.  Only the winner will be told the price they have to pay. 
+4.  Losers will be sent a message they did not win the auction. 
+5.  Finally, we will send a message back to the institution to start the next auction.
 
+TODO: It looks like all the send messages are using the second element of the (bidder, bid) tuple instead of the first.
 ```
 def complete_auction(self):
         
@@ -51,11 +54,12 @@ def complete_auction(self):
 Now, we will have to modify our agents and add a method to receive the messages concerning who won and lost
 the auction.
 
+TODO:  real_value should be common_value
 ```
 @directive_decorator("auction_result")
 def auction_result(self, message: Message):
     if message.get_payload()["auction_result"] == "winner":
-        real_value = essage.get_payload()["real_value"]
+        real_value = message.get_payload()["real_value"]
         self.auction_history.append(("Win", self.bid, real_value))
     else:
         self.auction_history.append(("Loss", self.bid, 0))
@@ -70,15 +74,18 @@ We will create a new file in the config directory. We will call this file base_s
 {"mtree_type": "mes_simulation_description",
    "name":"Basic Auction Run",
    "id": "1",
-   "environment": "basic_auctions.BasixEnvironment",
+   "environment": "basic_auctions.BasicEnvironment",
    "institution": "basic_auctions.BasicInstitution",
    "number_of_runs": 1,
    "agents": [{"agent_name": "basic_auction_agent.BasicAgent", "number": 5}],
    "properties": {}
  }
 ```
+TODO: Not sure where basic_auction comes from or why it is needed.  File is in MES
 
-The key components of this configuration file are the environment, institution, and agents properties. For the environment we will specify the file and class name of our environment, in this case basic_auction_environment.BasicAuctionEnvironment. We will do the same for our institution by specifying basic_auction_institution.BasicInstitution. Finally, we will add our agent as a dictionary in the agents property. The agents property actually allows us to specify different types of agents and the number of the agents we would like to be in our MES. Here we will specify the agent_name as basic_auction_agent.BasicAuctionAgent and the number is 5.
+TODO: names below are inconsistent with names in code.  I think below is correct?
+
+The key components of this configuration file are the `environment`, `institution`, and `agents` properties. For the environment we will specify the file and class name of our environment, in this case basic_auction_environment.BasicAuctionEnvironment. We will do the same for our institution by specifying basic_auction_institution.BasicInstitution. Finally, we will add our agent as a dictionary in the agents property. The agents property actually allows us to specify different types of agents and the number of the agents we would like to be in our MES. Here we will specify the agent_name as basic_auction_agent.BasicAuctionAgent and the number is 5.
 
 In order then to run this we will run the following command in the command line in the root direction of this tutorial `mTree_runner`. This will launch a command line interface that will allow you to run the step_5 MES.
 
