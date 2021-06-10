@@ -84,6 +84,7 @@ In order then to run this we will run the following command in the command line 
 
 While this simulation will run, we will want to add log messages to understand what is happening throughout the experiment.
 
+hen you are finsihed go to [Step_6](../step_6).
 
 
             
