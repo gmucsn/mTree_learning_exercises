@@ -1,10 +1,9 @@
 # mTree Basic Auction Tutorial - Step 4
 
-In this step, we will be setting up our agent code. We will also generate a configuration file that we can use to run our current code and test it.
+In this step, we will implement two directive handlers: set_endowment and start_bidding, 
+in our agent code. We will also generate a configuration file that we can use to run our current code and test it.
 
-Here we will implement two directive handlers: set_endowment and start_bidding. 
-
-The set_endowment directive handles a message from the environment that specifies the endowment for the agent. All we need to do here is take the endowment specified by the environment and save it to the agent.
+The set_endowment directive handles a message from the environment that specifies the endowment, i.e., the amount of money the agent can bid. All we need to do here is take the endowment specified by the environment and save it to the agent.
 
 ```
 @directive_decorator("set_endowment")
@@ -12,9 +11,10 @@ def set_endowment(self, message: Message):
     self.endowment = message.get_payload()["endowment"]
 ```
 
-Next, we will want to implement the directive for handling the start_bidding directive coming from the institution. In our implementation the agent will see the  price estimate and the error on the estimate.
+Next, we will want to implement the directive for handling the start_bidding directive coming from the institution. In our implementation the agent will see the value estimate and the error on the estimate.
 It will then make a decision about how much to bid.
 
+TODO: change code to value_estimate.
 ```
 @directive_decorator("start_bidding")
 def start_bidding(self, message: Message):
@@ -24,7 +24,8 @@ def start_bidding(self, message: Message):
     self.make_bid()
 ```
 
-Next, we will write our code to make a bid. In this case the agent will take the price estimate and simply bid that value.
+Next, we will write our code to make a bid. In this case the agent will take the value_estimate and simply bid that value.
+The agent will then send the bid to the institution.
 
 ```
 def make_bid(self):
