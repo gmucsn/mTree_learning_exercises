@@ -69,7 +69,7 @@ def __init__(self):
 
     self.bids = []
 ```
-
+When you are finsihed go to [Step_4](../step_4).
 
 
 
