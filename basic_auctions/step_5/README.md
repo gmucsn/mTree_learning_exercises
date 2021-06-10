@@ -66,7 +66,7 @@ def auction_result(self, message: Message):
 ```
 
 
-Now that we have code for every component of our MES, we can run our experiment. In order to run our experiment we will need to build a configuration file. This is a json file that contains information about the components we will be using in our experiment.
+Now that we have code for every component of our MES, we can build a configuration file to run our experiment. This is a json file that contains information about the components we will be using in our experiment.
 
 We will create a new file in the config directory. We will call this file base_simulation.json. The contents of this file will look like:
 
@@ -87,11 +87,16 @@ TODO: names below are inconsistent with names in code.  I think below is correct
 
 The key components of this configuration file are the `environment`, `institution`, and `agents` properties. For the environment we will specify the file and class name of our environment, in this case basic_auction_environment.BasicAuctionEnvironment. We will do the same for our institution by specifying basic_auction_institution.BasicInstitution. Finally, we will add our agent as a dictionary in the agents property. The agents property actually allows us to specify different types of agents and the number of the agents we would like to be in our MES. Here we will specify the agent_name as basic_auction_agent.BasicAuctionAgent and the number is 5.
 
-In order then to run this we will run the following command in the command line in the root direction of this tutorial `mTree_runner`. This will launch a command line interface that will allow you to run the step_5 MES.
+In order to run the MES,
+1. Open a command window.
+2. Naviagte to the root of this directory on your local computer.
+3. Type `mtree runner` from the command line.  
+4. This will launch a command line interface that will allow you to run the step_5 MES.
 
-While this simulation will run, we will want to add log messages to understand what is happening throughout the experiment.
+This simulation will run, but it will not produce any output.  Next we will add log messages to understand 
+what is happening throughout the experiment.
 
-hen you are finsihed go to [Step_6](../step_6).
+When you are finsihed go to [Step_6](../step_6).
 
 
             
