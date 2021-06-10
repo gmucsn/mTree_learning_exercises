@@ -24,7 +24,6 @@ Now we will add a `complete_auction` method that will determine the winner.
 4.  Losers will be sent a message they did not win the auction. 
 5.  Finally, we will send a message back to the institution to start the next auction.
 
-TODO: It looks like all the send messages are using the second element of the (bidder, bid) tuple instead of the first.
 ```
 def complete_auction(self):
         
@@ -36,14 +35,14 @@ def complete_auction(self):
         new_message.set_directive("auction_result")
         new_message.set_payload({"status": "winner", "real_value": self.item_for_auction_price})
 
-        self.send(winner[1], new_message)  # receiver_of_message, message
+        self.send(winner[0], new_message)  # receiver_of_message, message
 
         for agent in bids:
             new_message = Message()  # declare message
             new_message.set_sender(self.myAddress)  # set the sender of message to this actor
             new_message.set_directive("auction_result")
             new_message.set_payload({"status": "loser"})
-            self.send(agent[1], new_message)  # receiver_of_message, message
+            self.send(agent[0], new_message)  # receiver_of_message, message
 
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
