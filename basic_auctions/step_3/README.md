@@ -8,6 +8,7 @@ TODO: Instead of price it would make more sense to call self.item_for_auction_pr
 
 TODO:  We think self.auctions is the number of auctions being run, but its not clear.  
 
+TODO: change auctions to auctions to auctions_remaining
 
 ```
 @directive_decorator("start_auction")
