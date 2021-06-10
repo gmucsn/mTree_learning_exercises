@@ -1,10 +1,12 @@
 # mTree Basic Auction Tutorial - Step 3
 
-In this step, we will be setting up our institution's code. 
+We will be adding code to auction_institution.py in our mes folder. We will be implementing a directive handler for start_auction which is a message we will receive from the environment. Finally, we will then implement a directive handler for handling bids from agents.
 
-We will then be adding code to auction_institution.py in our mes folder. In particular, we will need to implement several directive handlers. Here we will be implementing a directive handler for start_auction which is a message we will receive from the environment. We will then implement a directive handler for handling bids from agents.
+Starting with the start_auction directive handler we will then implement a method that will determine the common_value of the item and the value_estimmate to provide to each agent at the start of the auction. We will then create a method to record the bids from the agents.
 
-Starting with the start_auction directive handler we will then implement a method that will determine what price to provide to each agent at the start of the auction. We will then create a method to record the bids from the agents.
+TODO: Instead of price it would make more sense to call self.item_for_auction_price, self.common_value 
+
+TODO:  We think self.auctions is the number of auctions being run, but its not clear.  
 
 
 ```
@@ -21,6 +23,10 @@ def start_auction(self, message:Message):
 
 We will use the start_bidding method because we can then reuse the method for alerting all agents of price changes.
 
+TODO: price_estimate should be called value_estimate
+
+TODO: in the assignment statement for price estimate should be +/- self.error
+
 In this case we will randomly determine the price estimate provided to each agent by selecting a number between the +/- sum `self.price` and the error bound `self.error`. In later steps, we will set these with configuration parameters.
 
 ```
@@ -35,7 +41,7 @@ def start_bidding(self):
         self.send(agent["address"], new_message)
 ```
 
-Finally, we will implement a directive handler for accepting bids from agents. This will handle the handle_bid directive. This method will identify the bidder and the bid amount from the agent. 
+Finally, we will implement a directive handler for accepting bids from agents. This will handle the "bid_for_item" directive. This method identifies the bidder that sent the messsage and the bid amount from the bidder. 
 
 ```
 @directive_decorator("bid_for_item")
