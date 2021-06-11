@@ -1,0 +1,80 @@
+from mTree.microeconomic_system.environment import Environment
+from mTree.microeconomic_system.institution import Institution
+from mTree.microeconomic_system.agent import Agent
+from mTree.microeconomic_system.directive_decorators import *
+from mTree.microeconomic_system.message import Message
+import math
+import random
+import logging
+import time
+import datetime
+
+@directive_enabled_class
+class AuctionInstitution(Institution):
+    def __init__(self):
+        self.auctions = 10
+
+        self.min_item_value = 20
+        self.max_item_value = 45
+
+
+        self.item_for_auction_price = None
+        self.error = 4
+
+        self.price_estimate = None
+
+        self.bids = []
+
+    @directive_decorator("start_auction")
+    def start_auction(self, message:Message):
+        if self.auctions > 0:
+            self.auctions -= 1
+
+            self.item_for_auction_price = random.randint(self.min_item_value, self.max_item_value)
+
+            self.bids = []
+            self.start_bidding()
+
+    def start_bidding(self):
+        agents = self.address_book.select_addresses({"component_type": "Agent"})
+        for agent in agents:
+            new_message = Message()  # declare message
+            new_message.set_sender(self.myAddress)  # set the sender of message to this actor
+            new_message.set_directive("start_bidding")
+            price_estimate = random.uniform(self.item_for_auction_price - self.error, self.item_for_auction_price - self.error)
+            new_message.set_payload({"price_estimate": price_estimate, "error": error})
+            self.send(agent["address"], new_message)
+
+    @directive_decorator("bid_for_item")
+    def bid_for_item(self, message: Message):
+        bidder = message.get_sender()
+        bid = int(message.get_payload()["bid"])
+            
+        self.bids.append((bidder, bid))
+
+        if len(self.bids) == len(self.address_book.select_addresses({"component_type": "Agent"})):
+            self.complete_auction()
+
+    def complete_auction(self):
+        
+        bids = sorted(self.bids, key=lambda elem: elem[1] ,reverse=True)
+
+        winner = bids.pop(0)
+        new_message = Message()  # declare message
+        new_message.set_sender(self.myAddress)  # set the sender of message to this actor
+        new_message.set_directive("auction_result")
+        new_message.set_payload({"status": "winner", "real_value": self.item_for_auction_price})
+
+        self.send(winner[0], new_message)  # receiver_of_message, message
+
+        for agent in bids:
+            new_message = Message()  # declare message
+            new_message.set_sender(self.myAddress)  # set the sender of message to this actor
+            new_message.set_directive("auction_result")
+            new_message.set_payload({"status": "loser"})
+            self.send(agent[0], new_message)  # receiver_of_message, message
+
+        new_message = Message()  # declare message
+        new_message.set_sender(self.myAddress)  # set the sender of message to this actor
+        new_message.set_directive("start_auction")
+        self.send(self.myAddress, new_message)  # receiver_of_message, message
