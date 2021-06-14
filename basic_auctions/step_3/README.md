@@ -4,29 +4,20 @@ We will be adding code to auction_institution.py in our mes folder. We will be i
 
 Starting with the start_auction directive handler we will then implement a method that will determine the common_value of the item and the value_estimmate to provide to each agent at the start of the auction. We will then create a method to record the bids from the agents.
 
-TODO: Instead of price it would make more sense to call self.item_for_auction_price, self.common_value 
-
-TODO:  We think self.auctions is the number of auctions being run, but its not clear.  
-
-TODO: change auctions to auctions to auctions_remaining
 
 ```
 @directive_decorator("start_auction")
 def start_auction(self, message:Message):
-    if self.auctions > 0:
-        self.auctions -= 1
+    if self.num_auctions_remaining > 0:
+        self.num_auctions_remaining -= 1
 
-        self.item_for_auction_price = random.randint(self.min_item_value, self.max_item_value)
+        self.common_value = random.randint(self.min_item_value, self.max_item_value)
 
         self.bids = []
         self.start_bidding()
 ```
 
 We will use the start_bidding method because we can then reuse the method for alerting all agents of price changes.
-
-TODO: price_estimate should be called value_estimate
-
-TODO: in the assignment statement for price estimate should be +/- self.error
 
 In this case we will randomly determine the price estimate provided to each agent by selecting a number between the +/- sum `self.price` and the error bound `self.error`. In later steps, we will set these with configuration parameters.
 
@@ -37,8 +28,8 @@ def start_bidding(self):
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("start_bidding")
-        price_estimate = random.uniform(self.item_for_auction_price - self.error, self.item_for_auction_price - self.error)
-        new_message.set_payload({"price_estimate": price_estimate, "error": error})
+        value_estimate = random.uniform(self.common_value - self.error, self.common_value + self.error)
+        new_message.set_payload({"value_estimate": value_estimate, "error": error})
         self.send(agent["address"], new_message)
 ```
 
@@ -57,16 +48,16 @@ Also, we will specify some properties for our class in the __init__ method.
 
 ```
 def __init__(self):
-    self.auctions = 10
+    self.num_auctions_remaining = 10
 
     self.min_item_value = 20
     self.max_item_value = 45
 
 
-    self.item_for_auction_price = None
+    self.common_value = None
     self.error = 4
 
-    self.price_estimate = None
+    self.value_estimate = None
 
     self.bids = []
 ```

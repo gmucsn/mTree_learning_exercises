@@ -22,16 +22,16 @@ class AuctionAgent(Agent):
     @directive_decorator("set_endowment")
     def set_endowment(self, message: Message):
         self.endowment = message.get_payload()["endowment"]
-
+        
     @directive_decorator("start_bidding")
     def start_bidding(self, message: Message):
-        self.price_estimate = message.get_payload()["price_estimate"]
+        self.value_estimate = message.get_payload()["value_estimate"]
         self.error = message.get_payload()["error"]
         self.institution = message.get_sender()
         self.make_bid()
 
     def make_bid(self):
-        self.bid = self.price_estimate
+        self.bid = self.value_estimate
 
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
@@ -42,7 +42,7 @@ class AuctionAgent(Agent):
     @directive_decorator("auction_result")
     def auction_result(self, message: Message):
         if message.get_payload()["auction_result"] == "winner":
-            real_value = message.get_payload()["real_value"]
-            self.auction_history.append(("Win", self.bid, real_value))
+            common_value = message.get_payload()["common_value"]
+            self.auction_history.append(("Win", self.bid, common_value))
         else:
             self.auction_history.append(("Loss", self.bid, 0))

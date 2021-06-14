@@ -33,7 +33,7 @@ def complete_auction(self):
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("auction_result")
-        new_message.set_payload({"status": "winner", "real_value": self.item_for_auction_price})
+        new_message.set_payload({"status": "winner", "common_value": self.common_value})
 
         self.send(winner[0], new_message)  # receiver_of_message, message
 
@@ -53,13 +53,12 @@ def complete_auction(self):
 Now, we will have to modify our agents and add a method to receive the messages concerning who won and lost
 the auction.
 
-TODO:  real_value should be common_value
 ```
 @directive_decorator("auction_result")
 def auction_result(self, message: Message):
     if message.get_payload()["auction_result"] == "winner":
-        real_value = message.get_payload()["real_value"]
-        self.auction_history.append(("Win", self.bid, real_value))
+        common_value = message.get_payload()["common_value"]
+        self.auction_history.append(("Win", self.bid, common_value))
     else:
         self.auction_history.append(("Loss", self.bid, 0))
 ```
@@ -73,16 +72,19 @@ We will create a new file in the config directory. We will call this file base_s
 {"mtree_type": "mes_simulation_description",
    "name":"Basic Auction Run",
    "id": "1",
-   "environment": "basic_auctions.BasicEnvironment",
-   "institution": "basic_auctions.BasicInstitution",
+   "environment": "basic_auction_environment.AuctionEnvironment",
+   "institution": "basic_auction_institution.AuctionInstitution",
    "number_of_runs": 1,
-   "agents": [{"agent_name": "basic_auction_agent.BasicAgent", "number": 5}],
+   "agents": [{"agent_name": "basic_auction_agent.AuctionAgent", "number": 5}],
    "properties": {}
  }
 ```
+
+<!---
 TODO: Not sure where basic_auction comes from or why it is needed.  File is in MES
 
 TODO: names below are inconsistent with names in code.  I think below is correct?
+--->
 
 The key components of this configuration file are the `environment`, `institution`, and `agents` properties. For the environment we will specify the file and class name of our environment, in this case basic_auction_environment.BasicAuctionEnvironment. We will do the same for our institution by specifying basic_auction_institution.BasicInstitution. Finally, we will add our agent as a dictionary in the agents property. The agents property actually allows us to specify different types of agents and the number of the agents we would like to be in our MES. Here we will specify the agent_name as basic_auction_agent.BasicAuctionAgent and the number is 5.
 

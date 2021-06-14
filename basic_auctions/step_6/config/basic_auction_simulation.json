@@ -1,8 +1,8 @@
 {"mtree_type": "mes_simulation_description",
     "name":"Basic Auction Run",
     "id": "1",
-    "environment": "basic_auctions.BasicEnvironment",
-    "institution": "basic_auctions.BasicInstitution",
+    "environment": "basic_auction_environment.BasicEnvironment",
+    "institution": "basic_auction_institution.BasicInstitution",
     "number_of_runs": 1,
     "agents": [{"agent_name": "basic_auction_agent.BasicAgent", "number": 5}],
     "properties": {}

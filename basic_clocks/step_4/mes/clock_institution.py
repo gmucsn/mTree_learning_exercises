@@ -13,7 +13,7 @@ import datetime
 @directive_enabled_class
 class ClockInstitution(Institution):
     def __init__(self):
-        self.auctions = 10
+        self.num_auctions_remaining = 10
         self.min_item_value = 10
         self.max_item_value = 100
 
@@ -25,8 +25,8 @@ class ClockInstitution(Institution):
 
     @directive_decorator("start_auction", message_schema=["agents"], message_callback="send_agents_start")
     def start_auction(self, message:Message):
-        if self.auctions > 0:
-            self.auctions -= 1
+        if self.num_auctions_remaining > 0:
+            self.num_auctions_remaining -= 1
             self.agents = message.get_payload()["agents"]
             self.bids = []
             self.starting_price = random.randint(self.min_item_value, self.max_item_value)

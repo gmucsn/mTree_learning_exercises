@@ -14,11 +14,11 @@ def set_endowment(self, message: Message):
 Next, we will want to implement the directive for handling the start_bidding directive coming from the institution. In our implementation the agent will see the value estimate and the error on the estimate.
 It will then make a decision about how much to bid.
 
-TODO: change code to value_estimate.
+
 ```
 @directive_decorator("start_bidding")
 def start_bidding(self, message: Message):
-    self.price_estimate = message.get_payload()["price_estimate"]
+    self.value_estimate = message.get_payload()["value_estimate"]
     self.error = message.get_payload()["error"]
     self.institution = message.get_sender()
     self.make_bid()
@@ -29,7 +29,7 @@ The agent will then send the bid to the institution.
 
 ```
 def make_bid(self):
-    self.bid = self.price_estimate
+    self.bid = self.value_estimate
 
     new_message = Message()  # declare message
     new_message.set_sender(self.myAddress)  # set the sender of message to this actor

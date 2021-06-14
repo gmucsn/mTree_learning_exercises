@@ -25,12 +25,12 @@ class AuctionEnvironment(Environment):
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("set_endowment")  # Set the directive (refer to 3. Make Messages) - has to match receiver decorator
         new_message.set_payload({"endowment": endowment})
-        self.address_book.broadcast_message({"component_type": "Agent"}, new_message)
+        self.address_book.broadcast_message({"address_type": "agent"}, new_message)
 
     def start_auction(self):
-        self.address_book.forward_address_book({"short_name": "AuctionInstitution"})
+        self.address_book.forward_address_book({"address_type": "institution"})
 
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("start_auction")
-        self.send(self.address_book.select_addresses({"short_name": "AuctionInstitution"}), new_message)  
+        self.send(self.address_book.select_addresses({"address_type": "institution"}), new_message)  

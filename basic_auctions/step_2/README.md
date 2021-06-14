@@ -33,8 +33,10 @@ In this method, notice the use of the Message object. These Message objects are 
 
 You'll notice here how we use the `address_book` property on the component. This keeps all the address of all the components in the MES and allows us to use a selector to identify who we want to broadcast messages to.
 
+<!---
 #TODO we need a better explanation of the address book and how selector usage works.
 #TODO for example below we have "short name", which I understand but someone new will not.
+--->
 
 Finally, we will write the code to send a start auction message to the institution in your MES. 
 ```
