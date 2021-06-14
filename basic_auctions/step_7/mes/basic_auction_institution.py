@@ -11,7 +11,7 @@ import datetime
 
 @directive_enabled_class
 class AuctionInstitution(Institution):
-    def __init__(self):
+    def prepare_auction(self):
         self.num_auctions_remaining = 10
 
         self.min_item_value = 20
@@ -27,6 +27,11 @@ class AuctionInstitution(Institution):
 
     @directive_decorator("start_auction")
     def start_auction(self, message:Message):
+        if message.get_payload()is not None:
+            self.prepare_auction()
+            temp_address_book = message.get_payload()["address_book"]
+            self.address_book.merge_addresses(temp_address_book)
+
         if self.num_auctions_remaining > 0:
             self.num_auctions_remaining -= 1
 
@@ -41,17 +46,15 @@ class AuctionInstitution(Institution):
             new_message = Message()  # declare message
             new_message.set_sender(self.myAddress)  # set the sender of message to this actor
             new_message.set_directive("start_bidding")
-            value_estimate = random.uniform(self.common_value - self.error, self.common_value + self.error)
-            new_message.set_payload({"value_estimate": value_estimate, "error": error})
+            value_estimate = random.randint(self.common_value - self.error, self.common_value + self.error)
+            new_message.set_payload({"value_estimate": value_estimate, "error": self.error})
             self.send(agent["address"], new_message)
 
     @directive_decorator("bid_for_item")
     def bid_for_item(self, message: Message):
         bidder = message.get_sender()
         bid = int(message.get_payload()["bid"])
-            
         self.bids.append((bidder, bid))
-
         if len(self.bids) == len(self.address_book.select_addresses({"address_type": "agent"})):
             self.complete_auction()
 
@@ -63,7 +66,7 @@ class AuctionInstitution(Institution):
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("auction_result")
-        new_message.set_payload({"status": "winner", "common_value": self.common_value})
+        new_message.set_payload({"auction_result": "winner", "common_value": self.common_value})
 
         self.send(winner[0], new_message)  # receiver_of_message, message
 
@@ -71,7 +74,7 @@ class AuctionInstitution(Institution):
             new_message = Message()  # declare message
             new_message.set_sender(self.myAddress)  # set the sender of message to this actor
             new_message.set_directive("auction_result")
-            new_message.set_payload({"status": "loser"})
+            new_message.set_payload({"auction_result": "loser"})
             self.send(agent[0], new_message)  # receiver_of_message, message
 
         new_message = Message()  # declare message
