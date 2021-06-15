@@ -11,7 +11,7 @@ import datetime
 
 @directive_enabled_class
 class AuctionAgent(Agent):
-    def __init__(self):
+    def prepare_agent(self):
         self.endowment = None
         self.institution = None
         
@@ -21,6 +21,7 @@ class AuctionAgent(Agent):
 
     @directive_decorator("set_endowment")
     def set_endowment(self, message: Message):
+        self.prepare_agent()
         self.endowment = message.get_payload()["endowment"]
         
     @directive_decorator("start_bidding")
@@ -31,18 +32,21 @@ class AuctionAgent(Agent):
         self.make_bid()
 
     def make_bid(self):
-        self.bid = self.value_estimate
-
+        bid = self.value_estimate
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("bid_for_item")
-        new_message.set_payload({"bid": self.bid})
+        new_message.set_payload({"bid": bid})
+        
         self.send(self.institution, new_message) 
+        
 
     @directive_decorator("auction_result")
     def auction_result(self, message: Message):
+        self.log_message(message.get_payload())
         if message.get_payload()["auction_result"] == "winner":
+            self.log_message(message.get_payload())
             common_value = message.get_payload()["common_value"]
-            self.auction_history.append(("Win", self.bid, common_value))
+            self.auction_history.append(("Win", -1, common_value))
         else:
-            self.auction_history.append(("Loss", self.bid, 0))
+            self.auction_history.append(("Loss", 0, 0))
