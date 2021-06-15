@@ -10,7 +10,7 @@ import time
 import datetime
 
 @directive_enabled_class
-class AuctionInstitution(Institution):
+class SecondPriceAuctionInstitution(Institution):
     def __init__(self):
         self.num_auctions_remaining = 10
 
@@ -64,7 +64,8 @@ class AuctionInstitution(Institution):
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("auction_result")
-        new_message.set_payload({"status": "winner", "common_value": self.common_value})
+        second_price = bids[0][1]
+        new_message.set_payload({"status": "winner", "price": second_price, "common_value": self.common_value})
 
         self.send(winner[0], new_message)  # receiver_of_message, message
 
