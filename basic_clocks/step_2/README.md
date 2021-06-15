@@ -23,12 +23,11 @@ The provide_endowment method will contact all agents and provide them with an in
 ```
 def provide_endowment(self):
     endowment = 30
-    for agent in self.agent_addresses:
-        new_message = Message()  # declare message
-        new_message.set_sender(self.myAddress)  # set the sender of message to this actor
-        new_message.set_directive("set_endowment")  # Set the directive (refer to 3. Make Messages) - has to match reciever decorator
-        new_message.set_payload({"endowment": endowment})
-        self.send(agent, new_message )  # receiver_of_message, message
+    new_message = Message()  # declare message
+    new_message.set_sender(self.myAddress)  # set the sender of message to this actor
+    new_message.set_directive("set_endowment")  # Set the directive (refer to 3. Make Messages) - has to match receiver decorator
+    new_message.set_payload({"endowment": endowment})
+    self.address_book.broadcast_message({"component_type": "Agent"}, new_message)
 ```
 
 In this method, notice the use of the Message object. These Message objects are how communications are handled in mTree. You will create a new message and minimally set the directive for the message. You can also include a payload in the message which the recipient can examine. 
@@ -41,7 +40,7 @@ def start_auction(self):
     new_message = Message()  # declare message
     new_message.set_sender(self.myAddress)  # set the sender of message to this actor
     new_message.set_directive("start_auction")
-    new_message.set_payload({"agents": self.agent_addresses})
-    self.send(self.institutions[0], new_message)  # receiver_of_message, message
+    new_message.set_payload({"address_book": self.address_book.get_addresses()})
+    self.send(self.address_book.select_addresses({"address_type": "institution"}), new_message)      # receiver_of_message, message
 ```
-In this case, we will use `self.insitutions[0]` to get the address of the institution as we will only be using one institution here. In this case we will be forwarding the addresses of all agents to the institution as well.
+In this case, we will use `self.address_book.select_addresses({"address_type": "institution"})` to get the address of the institution as we will only be using one institution here. In this case we will be forwarding the addresses of all agents to the institution as well.

@@ -9,6 +9,7 @@ The set_endowment directive handles a message from the environment that specifie
 ```
 @directive_decorator("set_endowment")
 def set_endowment(self, message: Message):
+    self.prepare_agent()    
     self.endowment = message.get_payload()["endowment"]
 ```
 
@@ -38,7 +39,7 @@ def make_bid(self):
 In order to support these functions we will be updating our __init__ method to specify certain properties.  In particular, we will have a property for the agent's endowment and will also specify the max_bid and bid_increment we would like to use.
 
 ```
-def __init__(self):
+def prepare_agent(self):
     self.endowment = None
     self.institution = None
     self.item_for_bidding = None
@@ -67,8 +68,10 @@ We will create a new file in the config directory. We will call this file base_s
 
 The key components of this configuration file are the environment, institution, and agents properties. For the environment we will specify the file and class name of our environment, in this case clock_environment.ClockEnvironment. We will do the same for our institution by specifying clock_institution.ClockInstitution. Finally, we will add our agent as a dictionary in the agents property. The agents property actually allows us to specify different types of agents and the number of the agents we would like to be in our MES. Here we will specify the agent_name as clock_simple_agent.ClockSimpleAgent and the number is 5.
 
-In order then to run this we will run the following command in the command line in the root direction of this tutorial `mTree_developer_server`. This will launch the mTree appication and a browser. You will then want to select the step_4 MES. Then click the configurations button. Then click the basic_simulation configuraiton. Finally, click the "Run Configuration" button and this will run your MES. You will notice a logs directory gets created in the step_4 directory, but you'll notice the log messages could be improved.
 
+
+<!--- In order then to run this we will run the following command in the command line in the root direction of this tutorial `mTree_developer_server`. This will launch the mTree appication and a browser. You will then want to select the step_4 MES. Then click the configurations button. Then click the basic_simulation configuraiton. Finally, click the "Run Configuration" button and this will run your MES. You will notice a logs directory gets created in the step_4 directory, but you'll notice the log messages could be improved.
+--->
 
 
             
