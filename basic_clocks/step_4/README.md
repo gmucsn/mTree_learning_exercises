@@ -15,6 +15,7 @@ def set_endowment(self, message: Message):
 
 Next, we will want to implement the directive for handling current_price directives coming from the institution. In our implementation the agent we will see the current price that the institution has recorded as the max bid. The agent will then decide to make a bid or not and send this bid to the institution.
 
+#TODO:  Explain message_schema= in directive_decorator
 ```
 @directive_decorator("current_price", message_schema=["value"], message_callback="make_bid")
 def bid_at_price(self, message: Message):
