@@ -34,6 +34,7 @@ def alert_agents_of_price(self, current_price):
 
 Finally, we will implement a directive handler for accepting bids from agents. This will handle the handle_bid directive. This method will identify the bid amount from the agent and then compare this bid to the current high price. If the bid is above the current high price, then the new bid becomes the high price and we will then alert all agents of the new price.
 
+#TODO:  Explain message_schema= in directive_decorator
 ```
 @directive_decorator("bid_for_item", message_schema=["bid"])
 def bid_for_item(self, message: Message):
