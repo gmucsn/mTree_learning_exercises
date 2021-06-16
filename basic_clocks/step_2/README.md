@@ -44,3 +44,5 @@ def start_auction(self):
     self.send(self.address_book.select_addresses({"address_type": "institution"}), new_message)      # receiver_of_message, message
 ```
 In this case, we will use `self.address_book.select_addresses({"address_type": "institution"})` to get the address of the institution as we will only be using one institution here. In this case we will be forwarding the addresses of all agents to the institution as well.
+
+Go ahead and make these changes and continue to [step_3](../step_3) to see our solution.
