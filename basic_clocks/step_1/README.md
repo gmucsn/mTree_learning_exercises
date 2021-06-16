@@ -36,3 +36,4 @@ class ClockEnvironment(Environment):
 
 In particular, notice the use of the @directive_enabled_class decorator. This is necessary in mTree for your component to work.
 
+Go ahead and make these additions and continue to [step_2](../step_2) to see our solution.
