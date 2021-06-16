@@ -62,7 +62,7 @@ def prepare_auction(self):
     self.bids = []
 ```
 
-
+Go ahead and make these changes and continue to [step_4](../step_4) to see our solution.
 
 
 
