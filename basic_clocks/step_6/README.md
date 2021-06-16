@@ -8,6 +8,6 @@ Specifically, you'll modify this line of your configuration: `"agents": [{"agent
 
 Now you should be able to run your new MES. 
 
-            
+Go ahead and make these changes and continue to [step_7](../step_7) to see our solution.            
             
         
