@@ -73,7 +73,7 @@ The key components of this configuration file are the environment, institution, 
 <!--- In order then to run this we will run the following command in the command line in the root direction of this tutorial `mTree_developer_server`. This will launch the mTree appication and a browser. You will then want to select the step_4 MES. Then click the configurations button. Then click the basic_simulation configuraiton. Finally, click the "Run Configuration" button and this will run your MES. You will notice a logs directory gets created in the step_4 directory, but you'll notice the log messages could be improved.
 --->
 
-
+Go ahead and make these changes and continue to [step_5](../step_5) to see our solution.
             
             
         
