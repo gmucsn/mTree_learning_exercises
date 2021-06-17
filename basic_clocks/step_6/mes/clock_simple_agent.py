@@ -12,7 +12,7 @@ import datetime
 
 @directive_enabled_class
 class ClockSimpleAgent(Agent):
-    def __init__(self):
+    def prepare_agent(self):
         self.endowment = None
         self.institution = None
         self.item_for_bidding = None
@@ -24,6 +24,7 @@ class ClockSimpleAgent(Agent):
         
     @directive_decorator("set_endowment")
     def set_endowment(self, message: Message):
+        self.prepare_agent()
         self.endowment = message.get_payload()["endowment"]
 
     @directive_decorator("current_price", message_schema=["value"], message_callback="make_bid")
@@ -33,6 +34,18 @@ class ClockSimpleAgent(Agent):
         self.log_data("Agent received item for bid " + str(self.current_price))
         if self.current_price < self.max_bid:
             self.make_bid()
+        
+
+    def reset_for_next_auction(self):
+        self.last_bid = 0
+        self.current_price = 0
+    
+    @directive_decorator("auction_result")
+    def auction_result(self, message:Message):
+        self.log_data(message.get_payload())
+        self.log_data("Agent received item for bid " + str(self.current_price))
+        self.reset_for_next_auction()
+        #TODO: finish this
         
     def make_bid(self):
         new_message = Message()  # declare message

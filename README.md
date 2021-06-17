@@ -12,7 +12,7 @@ Comment 4 - Should we have them fork this repo.  We obviously don't want them to
 
 ## Instructions
 These learning_exercises are a guided self-learning tour of mTree.  Before you can begin you should do the following:
-1. Download and [install mTree]()
+1. Download and [install mTree](https://www.youtube.com/watch?v=KeTnkIdeIGo)
 2. Watch the [Getting Started with mTree](https://www.youtube.com/watch?v=h_T-J4cR0Cs) video.
 3. You will then want to clone the repository to your computer. Cloning will allow you to get updates for this repository quickly. So use your command prompt, navigate to a directory you would like to keep the repository in and type: `git clone git@github.com:gmucsn/mTree_learning_exercises.git` . If this doesn't work, you might try to use the https location such as `git clone https://github.com/gmucsn/mTree_learning_exercises.git`
 4. Navigate to the [cv auction](https://github.com/gmucsn/mTree_learning_exercises/tree/main/basic_auctions) folder in this repository and do the subfolders in sequence.

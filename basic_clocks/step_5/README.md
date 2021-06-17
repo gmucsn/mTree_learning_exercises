@@ -54,6 +54,6 @@ def check_auction_close(self, message:Message):
 ```
 
 At the end of this we will send a message to start the next auction.
-            
-            
+
+Go ahead and make these changes and continue to [step_6](../step_6) to see our solution.
         
