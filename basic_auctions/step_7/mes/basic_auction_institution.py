@@ -27,7 +27,6 @@ class AuctionInstitution(Institution):
 
     @directive_decorator("start_auction")
     def start_auction(self, message:Message):
-
         if message.get_payload()is not None:
             self.prepare_auction()
             temp_address_book = message.get_payload()["address_book"]
