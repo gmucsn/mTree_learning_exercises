@@ -32,6 +32,14 @@ class ClockInstitution(Institution):
             self.starting_price = random.randint(self.min_item_value, self.max_item_value)
             self.alert_agents_of_price(self.starting_price)
 
+            unixtime2 = time.time()
+            wakeup_message = Message()  # declare message
+            wakeup_message.set_sender(self.myAddress)  # set the sender of message to this actor
+            wakeup_message.set_directive("check_auction_close")
+            wakeup_message.set_payload({"bid_action_time": unixtime2})
+            self.wakeupAfter( datetime.timedelta(seconds=10), payload=wakeup_message)
+
+
     def alert_agents_of_price(self, current_price):
         for agent in self.agents:
                 new_message = Message()  # declare message
@@ -39,6 +47,10 @@ class ClockInstitution(Institution):
                 new_message.set_directive("current_price")
                 new_message.set_payload({"current_price": current_price})
                 self.send(agent, new_message)  # receiver_of_message, message
+
+    @directive_decorator("check_auction_close", message_schema=["bid"])
+    def check_auction_close(self, message: Message):
+        self.log_message("CLOSING AN AUCTION")
 
     @directive_decorator("bid_for_item", message_schema=["bid"])
     def bid_for_item(self, message: Message):

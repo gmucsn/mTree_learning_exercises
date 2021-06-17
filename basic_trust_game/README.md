@@ -4,6 +4,14 @@ This tutorial will step you through the development of a trust game experiment. 
 
 This tutorial will aim to help you understand how to pair agents off and then manage their actions. This will extend your knowledge of the address book and will help prepare you for human subject experiments
 
+# Background to the Trust Game
+
+[Original Trust Game Paper](https://econweb.ucsd.edu/~jandreon/Econ264/papers/Berg%20et%20al%20GEB%201995.pdf)
+
+# Sequence Diagram for the Trust Game
+
+![Basic Auction Sequence Diagram](https://raw.githubusercontent.com/gmucsn/mTree_learning_exercises/main/basic_trust_game/trust_game_diagram.svg)
+
 # Steps to build this tutorial
 
 Prereqs. Step 0 - In this step you will simply need to create the corresponding directories for your code

@@ -1,10 +1,12 @@
 {"mtree_type": "mes_simulation_description",
-   "name":"Basic Clock Auction Run",
+   "name":"Basic Clock Auction Run - Step 5",
    "id": "1",
    "environment": "clock_environment.ClockEnvironment",
    "institution": "clock_institution.ClockInstitution",
    "number_of_runs": 1,
    "agents": [{"agent_name": "clock_simple_agent.ClockSimpleAgent", "number": 5}],
-   "properties": {}
+   "data_logging": "json",
+   "properties": {"max_bid":15},
+   "lakjsf":"asklfj"
  }
 
