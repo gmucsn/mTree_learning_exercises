@@ -24,7 +24,6 @@ class TrustInstitution(Institution):
             temp_address_book = message.get_payload()["address_book"]
             self.address_book.merge_addresses(temp_address_book)
         else:
-            self.log_message("ASFLKJASLFJ")
             self.address_book.reset_address_groups()
             
 

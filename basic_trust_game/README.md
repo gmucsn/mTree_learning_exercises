@@ -18,9 +18,9 @@ Prereqs. Step 0 - In this step you will simply need to create the corresponding 
 
 1. Step 1 - In this step we will define our initial code files for an environment, an institution, and an agent
 
-2. Step 2 - We will complete the code for the environment. This will be the place where you initialize a random ized pairing of the agents. 
+2. Step 2 - We will complete the code for the environment to deliver endowments to the agents. 
 
-3. Step 3 - We will now provide minimal code for our institution to deliver funds to the first agent.
+3. Step 3 - We will now provide minimal code for our institution  This will be the place where you initialize a randomized pairing of the agents. 
 
 4. Step 4 - We will now code the agents to be able to handle being the receiver of funds
 
