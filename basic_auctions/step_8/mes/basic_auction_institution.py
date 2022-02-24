@@ -11,7 +11,7 @@ import datetime
 
 @directive_enabled_class
 class AuctionInstitution(Institution):
-    def __init__(self):
+    def prepare_auction(self):
         self.num_auctions_remaining = 10
 
         self.min_item_value = 20
@@ -27,6 +27,13 @@ class AuctionInstitution(Institution):
 
     @directive_decorator("start_auction")
     def start_auction(self, message:Message):
+        if message.get_payload()is not None:            
+            self.prepare_auction()
+            temp_address_book = message.get_payload()["address_book"]
+            self.address_book.merge_addresses(temp_address_book)
+        else:
+            self.address_book.reset_address_groups()
+
         self.log_message("Starting auction..." + str(self.num_auctions_remaining))
         if self.num_auctions_remaining > 0:
             self.num_auctions_remaining -= 1
@@ -38,13 +45,14 @@ class AuctionInstitution(Institution):
 
     def start_bidding(self):
         agents = self.address_book.select_addresses({"address_type": "agent"})
+        self.log_message(agents)
         for agent in agents:
             new_message = Message()  # declare message
             new_message.set_sender(self.myAddress)  # set the sender of message to this actor
             new_message.set_directive("start_bidding")
             value_estimate = random.uniform(self.common_value - self.error, self.common_value + self.error)
-            new_message.set_payload({"value_estimate": value_estimate, "error": error})
-            self.send(agent["address"], new_message)
+            new_message.set_payload({"value_estimate": value_estimate, "error": self.error})
+            self.send(agent, new_message)
 
     @directive_decorator("bid_for_item")
     def bid_for_item(self, message: Message):

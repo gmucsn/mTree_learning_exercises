@@ -10,7 +10,7 @@ import time
 import datetime
 
 @directive_enabled_class
-class SecondPriceAuctionInstitution(Institution):
+class AuctionInstitution(Institution):
     def prepare_auction(self):
         self.num_auctions_remaining = 10
 
@@ -42,9 +42,13 @@ class SecondPriceAuctionInstitution(Institution):
 
             self.bids = []
             self.start_bidding()
+        else:
+            self.shutdown_mes()
+
 
     def start_bidding(self):
         agents = self.address_book.select_addresses({"address_type": "agent"})
+        self.log_message(agents)
         for agent in agents:
             new_message = Message()  # declare message
             new_message.set_sender(self.myAddress)  # set the sender of message to this actor
@@ -71,8 +75,7 @@ class SecondPriceAuctionInstitution(Institution):
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("auction_result")
-        second_price = bids[0][1]
-        new_message.set_payload({"status": "winner", "price": second_price, "common_value": self.common_value})
+        new_message.set_payload({"status": "winner", "common_value": self.common_value})
 
         self.send(winner[0], new_message)  # receiver_of_message, message
 

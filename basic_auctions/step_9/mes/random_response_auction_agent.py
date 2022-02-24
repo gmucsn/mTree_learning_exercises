@@ -10,7 +10,7 @@ import time
 import datetime
 
 @directive_enabled_class
-class AuctionAgent(Agent):
+class RandomResponseAuctionAgent(Agent):
     def prepare_agent(self):
         self.endowment = None
         self.institution = None
@@ -24,14 +24,23 @@ class AuctionAgent(Agent):
         self.prepare_agent()
         self.endowment = message.get_payload()["endowment"]
         
-    @directive_state("bid_guess", "auction_history")
     @directive_decorator("start_bidding")
     def start_bidding(self, message: Message):
-        self.log_message("Agent got auction start")
+        self.need_to_bid = True
+        seconds_to_bid = random.randint(0, 10)
+        new_message = message
+        new_message.set_directive("finalize_bid")
+        self.reminder(seconds_to_bid, new_message)
+        
+
+    @directive_decorator("finalize_bid")
+    def finalize_bid(self, message:Message):
+        self.log_message("Agent starting to actually bid")
         self.value_estimate = message.get_payload()["value_estimate"]
         self.error = message.get_payload()["error"]
         self.institution = message.get_sender()
         self.make_bid()
+
 
     def make_bid(self):
         self.bid = self.value_estimate
