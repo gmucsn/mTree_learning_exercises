@@ -9,6 +9,7 @@ import logging
 import time
 import datetime
 
+# @state_variables(["value","earnings"])
 @directive_enabled_class
 class RandomResponseAuctionAgent(Agent):
     def prepare_agent(self):
@@ -27,7 +28,7 @@ class RandomResponseAuctionAgent(Agent):
     @directive_decorator("start_bidding")
     def start_bidding(self, message: Message):
         self.need_to_bid = True
-        seconds_to_bid = random.randint(0, 10)
+        seconds_to_bid = random.randint(0, 300)
         new_message = message
         new_message.set_directive("finalize_bid")
         self.reminder(seconds_to_bid, new_message)

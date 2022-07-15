@@ -11,6 +11,22 @@ import datetime
 
 @directive_enabled_class
 class AuctionInstitution(Institution):
+    def prepare(self):
+        self.num_auctions_remaining = 10
+
+        self.min_item_value = 20
+        self.max_item_value = 45
+
+
+        self.common_value = None
+        self.error = 4
+
+        self.value_estimate = None
+        self.split_size = floor(self.num_agents/2)
+        self.bids = []
+        self.bid_history = []
+
+
     def prepare_auction(self):
         self.num_auctions_remaining = 10
 
@@ -33,7 +49,7 @@ class AuctionInstitution(Institution):
             self.address_book.merge_addresses(temp_address_book)
         else:
             self.address_book.reset_address_groups()
-
+        # raise Exception("Date provided can't be in the past")
         self.log_message("Starting auction..." + str(self.num_auctions_remaining))
         if self.num_auctions_remaining > 0:
             self.num_auctions_remaining -= 1
@@ -85,6 +101,9 @@ class AuctionInstitution(Institution):
             new_message.set_directive("auction_result")
             new_message.set_payload({"status": "loser"})
             self.send(agent[0], new_message)  # receiver_of_message, message
+
+        # raise Exception("TESTING")
+        
 
         new_message = Message()  # declare message
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor

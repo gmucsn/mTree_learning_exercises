@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+.DS_Store
 # C extensions
 *.so
 
@@ -140,6 +140,8 @@ dmypy.json
 
 # pytype static type analyzer
 .pytype/
+
+logs/
 
 # Cython debug symbols
 cython_debug/

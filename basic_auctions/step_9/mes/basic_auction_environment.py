@@ -16,6 +16,7 @@ class AuctionEnvironment(Environment):
 
     @directive_decorator("start_environment")
     def start_environment(self, message:Message):
+        logging.info("SHOULD BE STARTING AN ENVIRONMENT")
         self.institution_address = self.address_book.select_addresses({"address_type": "institution"})
         self.log_message(self.institution_address)
         self.log_message("env forward")
@@ -32,8 +33,11 @@ class AuctionEnvironment(Environment):
         new_message.set_sender(self.myAddress)  # set the sender of message to this actor
         new_message.set_directive("set_endowment")  # Set the directive (refer to 3. Make Messages) - has to match receiver decorator
         new_message.set_payload({"endowment": endowment})
-        self.address_book.broadcast_message({"address_type": "agent"}, new_message)
-
+        logging.info("SHOULD BE PROVISDING ENDOWMENT")
+        logging.info(new_message)
+        
+        self.send_message("set_endowment",self.address_book.select_addresses({"address_type": "agent"}) ,{"endowment": endowment})
+            
     def start_auction(self):
         
         # new_message = Message()  # declare message
