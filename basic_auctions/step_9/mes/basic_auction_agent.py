@@ -24,7 +24,6 @@ class AuctionAgent(Agent):
         self.prepare_agent()
         self.endowment = message.get_payload()["endowment"]
     
-    @directive_state_monitor(["error"])
     @directive_decorator("start_bidding")
     def start_bidding(self, message: Message):
         self.log_message("Agent got auction start")
